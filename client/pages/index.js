@@ -6,7 +6,7 @@ const LandingPage = ({ currentUser }) => {
   return <h1>Landing Page</h1>;
 };
 
-LandingPage.getInitialProps = async () => {
+LandingPage.getInitialProps = async ({ req }) => {
   if (typeof window === 'undefined') {
     // we are on the server!
 
@@ -22,9 +22,7 @@ LandingPage.getInitialProps = async () => {
     const { data } = await axios.get(
       'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
       {
-        headers: {
-          Host: 'microservice.dev',
-        },
+        headers: req.headers // to have cookie inside it and it wiil manage Host header too by itself
       }
     );
 
