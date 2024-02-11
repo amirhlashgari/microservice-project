@@ -1,6 +1,31 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import buildClient from '../api/build-client';
+import Header from '../components/header';
 
-// to have global bootstap css 
-export default ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+// to have global bootstap css and header
+const AppComponent = ({ Component, pageProps, currentUser }) => {
+  return (
+    <div>
+      <Header currentUser={currentUser} />
+      <Component {...pageProps} />
+    </div>
+  );
 };
+
+AppComponent.getInitialProps = async appContext => {
+  const client = buildClient(appContext.ctx);
+  const { data } = await client.get('/api/users/currentuser');
+
+  let pageProps = {};
+  if (appContext.Component.getInitialProps) {
+    // if we use getInitialProps here, index.js getInitialProps would be disabled so we trigger it manually 
+    pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+  }
+
+  return {
+    pageProps,
+    ...data
+  };
+};
+
+export default AppComponent;
