@@ -1,13 +1,19 @@
-interface Color {
-  red: number;
-  blue: number;
-  green: number;
-}
+/**
+ * if we didn't export all routes like below imports in packages should be like this:
+ * import { CustomError } from '@{{OrganizationName}}/common/errors/custom-error'
+ * 
+ * but by importing all from index.ts it is like:
+ * import { CustomError } from '@{{OrganizationName}}/common'
+ */
 
-const color: Color = {
-  red: 10,
-  blue: 10,
-  green: 10
-};
+export * from './errors/bad-request-error';
+export * from './errors/custom-error';
+export * from './errors/database-connection-error';
+export * from './errors/not-authorized-error';
+export * from './errors/not-found-error';
+export * from './errors/request-validation-error';
 
-console.log(color);
+export * from './middlewares/current-user';
+export * from './middlewares/error-handler';
+export * from './middlewares/require-auth';
+export * from './middlewares/validate-request';
