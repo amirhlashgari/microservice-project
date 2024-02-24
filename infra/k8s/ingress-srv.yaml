@@ -10,6 +10,13 @@ spec:
     - host: microservice.dev  # should set this address in our '/etc/host' equal to k8s machine address
       http:
         paths:
+          - path: /api/payments/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: payments-srv
+                port:
+                  number: 3000
           - path: /api/users/?(.*)
             pathType: ImplementationSpecific
             backend:
